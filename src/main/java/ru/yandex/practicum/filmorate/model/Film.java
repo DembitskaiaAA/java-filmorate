@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.model;
 
 import java.lang.annotation.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.Data;
 
@@ -13,7 +15,8 @@ import javax.validation.constraints.*;
 
 @Data
 public class Film {
-    private int id;
+    private long id;
+    private Set<Long> likes = new HashSet<>();
 
     @NotEmpty(message = "Название фильма не может быть пустым")
     @NotNull(message = "Название фильма не может быть пустым")
