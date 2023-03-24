@@ -38,6 +38,11 @@ public class FilmController {
         return filmStorage.updateFilm(film);
     }
 
+    @DeleteMapping("/{id}")
+    public String deleteFilm(@PathVariable Long id) {
+        return filmStorage.deleteFilm(id);
+    }
+
     @GetMapping("/{id}")
     public Film getFilm(@PathVariable Long id) {
         return filmStorage.getFilm(id);
