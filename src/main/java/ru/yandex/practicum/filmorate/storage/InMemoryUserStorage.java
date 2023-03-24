@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.storage;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -15,6 +16,12 @@ public class InMemoryUserStorage implements UserStorage {
 
     private Map<Long, User> users = new HashMap<>();
     private long id = 0;
+    FilmStorage filmStorage;
+
+    @Autowired
+    InMemoryUserStorage(FilmStorage filmStorage) {
+        this.filmStorage = filmStorage;
+    }
 
     @Override
     public Collection<User> getAllUsers() {
@@ -45,6 +52,23 @@ public class InMemoryUserStorage implements UserStorage {
         users.put(user.getId(), user);
         log.info("Пользователь {} обновлен в списке", user.getName());
         return user;
+    }
+
+    @Override
+    public String deleteUser(Long id) {
+        if (!users.containsKey(id)) {
+            throw new UserNotFoundException(
+                    String.format("При попытке удалить пользователя произошла ошибка: " +
+                            "пользователь с id: %s не добавлен в базу", id));
+        }
+        //Удаляю пользователя из друзей у его друзей
+        users.get(id).getFriends().forEach(x -> users.get(x).getFriends().remove(id));
+        //Удаляю лайки пользователя с фильмов
+        filmStorage.getAllFilms().stream()
+                .filter(x -> x.getLikes().contains(id))
+                .forEach(x -> x.getLikes().remove(id));
+        users.remove(id);
+        return String.format("Пользователь с id: %s удален", id);
     }
 
     @Override

@@ -12,6 +12,8 @@ public interface UserStorage {
 
     User updateUser(User user);
 
+    String deleteUser(Long id);
+
     User getUser(Long id);
 
     Map<Long, User> getUsers();
