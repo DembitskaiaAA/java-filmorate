@@ -2,8 +2,12 @@ package ru.yandex.practicum.filmorate.model;
 
 import java.lang.annotation.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
@@ -12,24 +16,26 @@ import javax.validation.Payload;
 import javax.validation.constraints.*;
 
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Film {
-    private int id;
+    long id;
+    Set<Long> likes = new HashSet<>();
 
     @NotEmpty(message = "Название фильма не может быть пустым")
     @NotNull(message = "Название фильма не может быть пустым")
-    private String name;
+    String name;
 
     @NotBlank(message = "Описание фильма не может быть пустым")
     @Size(max = 200, message = "Описание фильма не может превышать 200 символов")
-    private String description;
+    String description;
 
     @NotNull(message = "Дата выходы фильма не может быть пустой")
     @After("1895-12-28")
-    private LocalDate releaseDate;
+    LocalDate releaseDate;
 
     @NotNull(message = "Продолжительность фильма не может быть пустой")
     @Positive(message = "Продолжительность фильма не может быть отрицательной")
-    private long duration;
+    long duration;
 
     @Constraint(validatedBy = AfterValidator.class)
     @Target({ElementType.FIELD, ElementType.METHOD})
