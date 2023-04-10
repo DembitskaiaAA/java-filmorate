@@ -27,24 +27,30 @@ public class FilmorateApplication {
 
 #### Примеры запросов:
 - Вывести идентификатор, название и жанр фильма:
-> SELECT f.film_id, f.name, g.name
+```sql
+SELECT f.film_id, f.name, g.name
 FROM film AS f
 INNER JOIN film-category AS fc ON f.film_id = fc.film_id 
 INNER JOIN genre AS g ON fc.genre_id = g.genre_id;
+```
 
 - Вывести идентификатор, название и количество лайков фильма, а также отсортировать по количеству лайков от большего к меньшему:
-> SELECT f.film_id, f.name, COUNT(l.user_id) AS likes
+```sql
+SELECT f.film_id, f.name, COUNT(l.user_id) AS likes
 FROM film AS f
 LEFT OUTER JOIN likes AS l ON f.film_id = l.film_id
 GROUP BY f.film_id
 ORDER BY likes DESC;
+```
 
 - Вывести общих друзей пользователей c id 1 и 2:
-> SELECT friends_id AS common_friends 
+```sql
+SELECT friends_id AS common_friends 
 FROM friends
 WHERE user_id = 1 OR user_id = 2
 GROUP BY friends_id
-HAVING COUNT(friends_id) >= 2
+HAVING COUNT(friends_id) >= 2;
+```
 
 
 Данная задача решена в рамках обучения на [Яндекс-Практикуме](https://practicum.yandex.ru/java-developer/)
