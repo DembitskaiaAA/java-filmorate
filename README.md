@@ -23,7 +23,7 @@ public class FilmorateApplication {
 }
 ```
 #### В рамках дополнительного задания создана схема базы данных:
-Ссылка на схему базы данных (https://practicum.yandex.ru/java-developer/)
+Ссылка на схему базы данных ([https://practicum.yandex.ru/java-developer/](https://github.com/DembitskaiaAA/java-filmorate/blob/add-friends-likes/database_FilmorateApp.png))
 
 #### Примеры запросов:
 - Вывести идентификатор, название и жанр фильма:
