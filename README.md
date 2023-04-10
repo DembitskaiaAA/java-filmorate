@@ -23,7 +23,7 @@ public class FilmorateApplication {
 }
 ```
 #### В рамках дополнительного задания создана схема базы данных:
-[Ссылка на схему базы данных](https://github.com/DembitskaiaAA/java-filmorate/blob/add-friends-likes/database_FilmorateApp.png)
+![Cхема базы данных](/database_FilmorateApp)
 
 #### Примеры запросов:
 - Вывести идентификатор, название и жанр фильма:
@@ -34,7 +34,7 @@ INNER JOIN film-category AS fc ON f.film_id = fc.film_id
 INNER JOIN genre AS g ON fc.genre_id = g.genre_id;
 ```
 
-- Вывести идентификатор, название и количество лайков фильма, а также отсортировать по количеству лайков от большего к меньшему:
+- Вывести идентификатор, название и количество лайков фильма, а также отсортировать список по количеству лайков от большего к меньшему:
 ```sql
 SELECT f.film_id, f.name, COUNT(l.user_id) AS likes
 FROM film AS f
@@ -45,11 +45,18 @@ ORDER BY likes DESC;
 
 - Вывести общих друзей пользователей c id 1 и 2:
 ```sql
-SELECT friends_id AS common_friends 
-FROM friends
-WHERE user_id = 1 OR user_id = 2
-GROUP BY friends_id
-HAVING COUNT(friends_id) >= 2;
+SELECT u.user_id,
+    u.email,
+    u.login,
+    u.name,
+    u.birthday
+FROM (
+    SELECT friends_id
+    FROM friends
+    WHERE (user_id = 1 OR user_id = 2) AND status = 'friend'
+    GROUP BY friends_id
+    HAVING COUNT(friends_id) = 2) AS cf
+INNER JOIN user AS u ON cf.friends_id = u.user_id;
 ```
 
 
