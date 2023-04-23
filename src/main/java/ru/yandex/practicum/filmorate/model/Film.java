@@ -2,11 +2,15 @@ package ru.yandex.practicum.filmorate.model;
 
 import java.lang.annotation.*;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.Constraint;
@@ -17,6 +21,7 @@ import javax.validation.constraints.*;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Film {
     long id;
     Set<Long> likes = new HashSet<>();
@@ -29,6 +34,8 @@ public class Film {
     @Size(max = 200, message = "Описание фильма не может превышать 200 символов")
     String description;
 
+    Mpa mpa;
+
     @NotNull(message = "Дата выходы фильма не может быть пустой")
     @After("1895-12-28")
     LocalDate releaseDate;
@@ -36,6 +43,62 @@ public class Film {
     @NotNull(message = "Продолжительность фильма не может быть пустой")
     @Positive(message = "Продолжительность фильма не может быть отрицательной")
     long duration;
+
+    Set<Genre> genres = new HashSet<>();
+
+    int rate;
+
+    public Film(String name, LocalDate releaseDate, String description, long duration, int rate, Mpa mpa, Set<Genre> genres) {
+        this.name = name;
+        this.releaseDate = releaseDate;
+        this.description = description;
+        this.duration = duration;
+        this.rate = rate;
+        this.mpa = mpa;
+        this.genres = genres;
+
+    }
+    public Film(String name, LocalDate releaseDate, String description, long duration, int rate, Mpa mpa) {
+        this.name = name;
+        this.releaseDate = releaseDate;
+        this.description = description;
+        this.duration = duration;
+        this.rate = rate;
+        this.mpa = mpa;
+        this.genres = genres;
+    }
+    public Film(Long id, String name, LocalDate releaseDate, String description, long duration, int rate, Mpa mpa, Set<Genre> genres) {
+        this.id = id;
+        this.name = name;
+        this.releaseDate = releaseDate;
+        this.description = description;
+        this.duration = duration;
+        this.rate = rate;
+        this.mpa = mpa;
+        this.genres = genres;
+    }
+
+    public Film(long id, Set<Long> likes, String name,  LocalDate releaseDate, String description, long duration, int rate, Mpa mpa , Set<Genre> genres) {
+        this.id = id;
+        this.likes = likes;
+        this.name = name;
+        this.description = description;
+        this.mpa = mpa;
+        this.releaseDate = releaseDate;
+        this.duration = duration;
+        this.genres = genres;
+        this.rate = rate;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> param = new HashMap<>();
+        param.put("FILM_NAME", name);
+        param.put("DESCRIPTION", description);
+        param.put("RELEASE_DATE", releaseDate);
+        param.put("DURATION", duration);
+        param.put("RATE", rate);
+        return param;
+    }
 
     @Constraint(validatedBy = AfterValidator.class)
     @Target({ElementType.FIELD, ElementType.METHOD})
