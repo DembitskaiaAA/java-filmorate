@@ -34,7 +34,8 @@ public class InMemoryFilmStorage implements FilmStorage {
     public Film updateFilm(Film film) {
         if (!films.containsKey(film.getId())) {
             log.error("Обнаружена ошибка: фильм с id {} отсутствует", film.getId());
-            throw new FilmNotFoundException(String.format("Обнаружена ошибка: фильм с id %d отсутствует", film.getId()));
+            throw new FilmNotFoundException(
+                    String.format("Обнаружена ошибка: фильм с id %d отсутствует", film.getId()));
         }
         films.put(film.getId(), film);
         log.info("Фильм {} обновлен в списке", film.getName());

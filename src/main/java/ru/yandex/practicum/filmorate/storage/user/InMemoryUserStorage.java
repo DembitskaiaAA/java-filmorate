@@ -16,9 +16,9 @@ import java.util.Map;
 @Component("InMemoryUserStorage")
 public class InMemoryUserStorage implements UserStorage {
 
+    FilmStorage filmStorage;
     private Map<Long, User> users = new HashMap<>();
     private long id = 0;
-    FilmStorage filmStorage;
 
     @Autowired
     InMemoryUserStorage(@Qualifier("InMemoryFilmStorage") FilmStorage filmStorage) {

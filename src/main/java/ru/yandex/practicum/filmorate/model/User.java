@@ -1,15 +1,16 @@
 package ru.yandex.practicum.filmorate.model;
 
-import java.time.LocalDate;
-import java.util.*;
-
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)

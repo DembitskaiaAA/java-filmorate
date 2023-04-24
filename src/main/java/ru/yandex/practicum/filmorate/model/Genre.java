@@ -8,7 +8,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Positive;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -19,10 +18,10 @@ public class Genre {
     private int id;
     private String name;
 
-        public Genre(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
+    public Genre(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Map<String, Object> toMap() {
         Map<String, Object> param = new HashMap<>();

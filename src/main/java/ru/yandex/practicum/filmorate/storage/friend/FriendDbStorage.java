@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exception.FriendNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
@@ -14,6 +13,7 @@ import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class FriendDbStorage implements FriendStorage {
@@ -31,20 +31,25 @@ public class FriendDbStorage implements FriendStorage {
     @Override
     public void addFriend(Long userId, Long friendId) {
         if (userStorage.validateUser(userId) && userStorage.validateUser(friendId)) {
-            jdbcTemplate.update("INSERT INTO FRIEND (FRIEND_CLIENT_ID, FRIEND_FRIEND_ID, FRIEND_STATUS) VALUES (?, ?, ?)", userId, friendId, true);
+            jdbcTemplate.update(
+                    "INSERT INTO FRIEND (FRIEND_CLIENT_ID, FRIEND_FRIEND_ID, FRIEND_STATUS) " +
+                            "VALUES (?, ?, ?)", userId, friendId, true);
             log.info("Пользователь с id {} добавлен в друзья пользователю с id {}", friendId, userId);
         } else {
-            throw new FriendNotFoundException(String.format("Пользователь с id %s или пользователь с id %s отсутствуют", userId, friendId));
+            throw new FriendNotFoundException(
+                    String.format("Пользователь с id %s или пользователь с id %s отсутствуют", userId, friendId));
         }
     }
 
     @Override
     public void removeFriend(Long userId, Long friendId) {
         if (userStorage.validateUser(userId) && userStorage.validateUser(friendId)) {
-            jdbcTemplate.update("DELETE FROM FRIEND WHERE FRIEND_CLIENT_ID = ? AND FRIEND_FRIEND_ID = ?", userId, friendId);
+            jdbcTemplate.update("DELETE FROM FRIEND " +
+                    "WHERE FRIEND_CLIENT_ID = ? AND FRIEND_FRIEND_ID = ?", userId, friendId);
             log.info("Пользователь с id {} удален из друзей пользователя с id {}", friendId, userId);
         } else {
-            throw new FriendNotFoundException(String.format("Пользователь с id %s или пользователь с id %s отсутствуют", userId, friendId));
+            throw new FriendNotFoundException(
+                    String.format("Пользователь с id %s или пользователь с id %s отсутствуют", userId, friendId));
         }
     }
 
@@ -75,6 +80,13 @@ public class FriendDbStorage implements FriendStorage {
                         rs.getLong("FRIEND_FRIEND_ID")),
                 userId
         ));
+    }
+
+    @Override
+    public Collection<User> getCommonFriends(Long id, Long otherId) {
+        return getFriends(id).stream()
+                .filter(x -> getFriends(otherId).contains(x))
+                .collect(Collectors.toList());
     }
 }
 

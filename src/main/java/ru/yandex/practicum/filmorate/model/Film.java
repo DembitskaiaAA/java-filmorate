@@ -1,14 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
-import java.lang.annotation.*;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +10,12 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 import javax.validation.constraints.*;
+import java.lang.annotation.*;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -48,7 +46,8 @@ public class Film {
 
     int rate;
 
-    public Film(String name, LocalDate releaseDate, String description, long duration, int rate, Mpa mpa, Set<Genre> genres) {
+    public Film(String name, LocalDate releaseDate, String description, long duration, int rate, Mpa mpa,
+                Set<Genre> genres) {
         this.name = name;
         this.releaseDate = releaseDate;
         this.description = description;
@@ -58,6 +57,7 @@ public class Film {
         this.genres = genres;
 
     }
+
     public Film(String name, LocalDate releaseDate, String description, long duration, int rate, Mpa mpa) {
         this.name = name;
         this.releaseDate = releaseDate;
@@ -67,7 +67,9 @@ public class Film {
         this.mpa = mpa;
         this.genres = genres;
     }
-    public Film(Long id, String name, LocalDate releaseDate, String description, long duration, int rate, Mpa mpa, Set<Genre> genres) {
+
+    public Film(Long id, String name, LocalDate releaseDate, String description, long duration, int rate,
+                Mpa mpa, Set<Genre> genres) {
         this.id = id;
         this.name = name;
         this.releaseDate = releaseDate;
@@ -78,7 +80,8 @@ public class Film {
         this.genres = genres;
     }
 
-    public Film(long id, Set<Long> likes, String name,  LocalDate releaseDate, String description, long duration, int rate, Mpa mpa , Set<Genre> genres) {
+    public Film(long id, Set<Long> likes, String name, LocalDate releaseDate, String description,
+                long duration, int rate, Mpa mpa, Set<Genre> genres) {
         this.id = id;
         this.likes = likes;
         this.name = name;

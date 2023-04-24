@@ -3,17 +3,13 @@ package ru.yandex.practicum.filmorate.storage.mpa;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.exception.MpaNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
-import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.HashSet;
 
 @Component
 public class MpaDbStorage implements MpaStorage {
@@ -33,7 +29,8 @@ public class MpaDbStorage implements MpaStorage {
     @Override
     public Mpa getMpa(int id) {
         if (!validateMpa(id)) {
-            throw new MpaNotFoundException(String.format("При получении mpa обнаружена ошибка: mpa с id %d отсутствует", id));
+            throw new MpaNotFoundException(
+                    String.format("При получении mpa обнаружена ошибка: mpa с id %d отсутствует", id));
         }
         String queryMpaResult = "SELECT * FROM RATING WHERE RATING_MPA_ID = ?;";
 

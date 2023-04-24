@@ -30,7 +30,8 @@ public class GenreDbStorage implements GenreStorage {
     @Override
     public Genre getGenre(int id) {
         if (!validateGenre(id)) {
-            throw new GenreNotFoundException(String.format("При получении жанра обнаружена ошибка: жанр с id %d отсутствует", id));
+            throw new GenreNotFoundException(
+                    String.format("При получении жанра обнаружена ошибка: жанр с id %d отсутствует", id));
         }
         String queryGenreResult = "SELECT * FROM GENRE WHERE GENRE_ID = ?;";
 
@@ -48,7 +49,8 @@ public class GenreDbStorage implements GenreStorage {
         if (film.getGenres() != null) {
             for (Genre genre : film.getGenres()) {
                 jdbcTemplate.update(
-                        "INSERT INTO FILM_CATEGORY (FILM_CATEGORY_FILM_ID, FILM_CATEGORY_GENRE_ID) VALUES (?, ?)", film.getId(), genre.getId()
+                        "INSERT INTO FILM_CATEGORY (FILM_CATEGORY_FILM_ID, FILM_CATEGORY_GENRE_ID) " +
+                                "VALUES (?, ?)", film.getId(), genre.getId()
                 );
             }
         }

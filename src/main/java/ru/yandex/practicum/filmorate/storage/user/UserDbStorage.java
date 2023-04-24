@@ -11,7 +11,8 @@ import ru.yandex.practicum.filmorate.storage.friend.FriendStorage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
 
 @Slf4j
 @Component("UserDbStorage")
@@ -52,7 +53,9 @@ public class UserDbStorage implements UserStorage {
     @Override
     public User updateUser(User user) {
         if (!validateUser(user.getId())) {
-            throw new UserNotFoundException(String.format("При обновлении пользователя обнаружена ошибка: пользователя с id %d отсутствует", user.getId()));
+            throw new UserNotFoundException(
+                    String.format("При обновлении пользователя обнаружена ошибка: пользователя с id %d отсутствует",
+                            user.getId()));
         }
         if (user.getName() == null || user.getName().isBlank()) {
             user.setName(user.getLogin());
@@ -73,7 +76,8 @@ public class UserDbStorage implements UserStorage {
     @Override
     public String deleteUser(Long id) {
         if (!validateUser(id)) {
-            throw new UserNotFoundException(String.format("При удалении пользователя обнаружена ошибка: пользователь с id %d отсутствует", id));
+            throw new UserNotFoundException(
+                    String.format("При удалении пользователя обнаружена ошибка: пользователь с id %d отсутствует", id));
         }
         String sqlQueryDeleteUser = "DELETE from CLIENT where CLIENT_ID = ?";
         jdbcTemplate.update(sqlQueryDeleteUser, id);
@@ -84,7 +88,9 @@ public class UserDbStorage implements UserStorage {
     @Override
     public User getUser(Long id) {
         if (!validateUser(id)) {
-            throw new UserNotFoundException(String.format("При получении пользователя обнаружена ошибка: пользователя с id %d отсутствует", id));
+            throw new UserNotFoundException(
+                    String.format("При получении пользователя обнаружена ошибка: пользователя с id %d отсутствует",
+                            id));
         }
         String queryUserResult = "SELECT * FROM CLIENT WHERE CLIENT_ID = ?;";
 

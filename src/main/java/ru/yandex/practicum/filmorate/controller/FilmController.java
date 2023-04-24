@@ -9,7 +9,7 @@ import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/films")
