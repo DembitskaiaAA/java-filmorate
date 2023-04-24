@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -16,7 +15,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Map;
 
-@Slf4j
 @Component("FilmDbStorage")
 public class FilmDbStorage implements FilmStorage {
 
@@ -58,7 +56,6 @@ public class FilmDbStorage implements FilmStorage {
         jdbcTemplate.update(
                 "INSERT INTO LIKES (LIKES_FILM_ID) VALUES (?)", film.getId());
 
-        log.info("Фильм {} добавлен", film);
         return film;
     }
 
@@ -86,7 +83,6 @@ public class FilmDbStorage implements FilmStorage {
         mpaStorage.addFilmsMpa(film);
         film.setMpa(mpaStorage.getFilmsMpa(film.getId()));
 
-        log.info("Фильм {} обновлен", film);
         return film;
 
     }
@@ -99,7 +95,6 @@ public class FilmDbStorage implements FilmStorage {
         }
         String sqlQueryDeleteFilm = "DELETE from FILM where FILM_ID = ?";
         jdbcTemplate.update(sqlQueryDeleteFilm, id);
-        log.info("Фильм с id {} удален", id);
         return String.format("Фильм с id: %s удален", id);
     }
 

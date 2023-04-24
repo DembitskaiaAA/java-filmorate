@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -14,7 +13,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Map;
 
-@Slf4j
 @Component("UserDbStorage")
 public class UserDbStorage implements UserStorage {
 
@@ -46,7 +44,6 @@ public class UserDbStorage implements UserStorage {
         String queryUserResult = "SELECT * FROM CLIENT WHERE CLIENT_ID = ?;";
 
         User userResult = jdbcTemplate.queryForObject(queryUserResult, this::mapRowToUser, user.getId());
-        log.info("Пользователь {} добавлен", userResult);
         return userResult;
     }
 
@@ -69,7 +66,6 @@ public class UserDbStorage implements UserStorage {
                 user.getBirthday(),
                 user.getId());
 
-        log.info("Пользователь {} обновлен", user);
         return user;
     }
 
@@ -81,7 +77,6 @@ public class UserDbStorage implements UserStorage {
         }
         String sqlQueryDeleteUser = "DELETE from CLIENT where CLIENT_ID = ?";
         jdbcTemplate.update(sqlQueryDeleteUser, id);
-        log.info("Пользователь с id {} удален", id);
         return String.format("пользователь с id: %s удален", id);
     }
 

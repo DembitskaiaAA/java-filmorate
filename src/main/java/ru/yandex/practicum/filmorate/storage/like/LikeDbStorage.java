@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.storage.like;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-@Slf4j
 public class LikeDbStorage implements LikeStorage {
 
     private final JdbcTemplate jdbcTemplate;
@@ -50,7 +48,6 @@ public class LikeDbStorage implements LikeStorage {
                     String.format("При добавлении лайка обнаружена ошибка: фильм с id %d отсутствует", filmId));
         }
         jdbcTemplate.update("INSERT INTO LIKES (LIKES_FILM_ID, LIKES_CLIENT_ID) VALUES (?, ?)", filmId, userId);
-        log.info("Пользователь с id = {} поставил лайк фильму с id = {}", userId, filmId);
     }
 
     @Override
@@ -64,7 +61,6 @@ public class LikeDbStorage implements LikeStorage {
                     String.format("При удалении лайка обнаружена ошибка: фильм с id %d отсутствует", filmId));
         }
         jdbcTemplate.update("DELETE FROM LIKES WHERE LIKES_FILM_ID = ? AND LIKES_CLIENT_ID = ?", filmId, userId);
-        log.info("Пользователь с id: {} удалил лайк фильму с id: {}", userId, filmId);
     }
 
     @Override
