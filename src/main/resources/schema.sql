@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS CLIENT, FILM, FILM_CATEGORY, FILM_RATING, FRIEND, GENRE, LIKES, RATING;
 
-create table IF NOT EXISTS  CLIENT
+create table IF NOT EXISTS CLIENT
 (
     CLIENT_ID   BIGINT auto_increment,
     EMAIL       CHARACTER VARYING(64) not null,
@@ -11,7 +11,7 @@ create table IF NOT EXISTS  CLIENT
         primary key (CLIENT_ID)
 );
 
-create table IF NOT EXISTS  FILM
+create table IF NOT EXISTS FILM
 (
     FILM_ID      BIGINT auto_increment,
     FILM_NAME    CHARACTER VARYING      not null,
@@ -23,10 +23,10 @@ create table IF NOT EXISTS  FILM
         primary key (FILM_ID)
 );
 
-create table IF NOT EXISTS  FRIEND
+create table IF NOT EXISTS FRIEND
 (
-    FRIEND_CLIENT_ID BIGINT            not null,
-    FRIEND_FRIEND_ID BIGINT            not null,
+    FRIEND_CLIENT_ID BIGINT  not null,
+    FRIEND_FRIEND_ID BIGINT  not null,
     FRIEND_STATUS    BOOLEAN not null,
     constraint FRIEND_CLIENT_CLIENT_ID_FK
         foreign key (FRIEND_CLIENT_ID) references CLIENT
@@ -36,7 +36,7 @@ create table IF NOT EXISTS  FRIEND
             on delete cascade
 );
 
-create table IF NOT EXISTS  GENRE
+create table IF NOT EXISTS GENRE
 (
     GENRE_ID   INTEGER auto_increment,
     GENRE_NAME CHARACTER VARYING not null,
@@ -56,7 +56,7 @@ create table IF NOT EXISTS FILM_CATEGORY
             on delete cascade
 );
 
-create table IF NOT EXISTS  LIKES
+create table IF NOT EXISTS LIKES
 (
     LIKES_FILM_ID   BIGINT,
     LIKES_CLIENT_ID BIGINT,
@@ -68,7 +68,7 @@ create table IF NOT EXISTS  LIKES
             on delete cascade
 );
 
-create table IF NOT EXISTS  RATING
+create table IF NOT EXISTS RATING
 (
     RATING_MPA_ID   INTEGER auto_increment,
     RATING_MPA_NAME CHARACTER VARYING not null,
@@ -76,7 +76,7 @@ create table IF NOT EXISTS  RATING
         primary key (RATING_MPA_ID)
 );
 
-create table IF NOT EXISTS  FILM_RATING
+create table IF NOT EXISTS FILM_RATING
 (
     FILM_RATING_FILM_ID BIGINT  not null,
     FILM_RATING_MPA_ID  INTEGER not null,
