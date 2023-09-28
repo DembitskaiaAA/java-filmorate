@@ -1,25 +1,27 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Component
+@Component("InMemoryUserStorage")
 public class InMemoryUserStorage implements UserStorage {
 
+    FilmStorage filmStorage;
     private Map<Long, User> users = new HashMap<>();
     private long id = 0;
-    FilmStorage filmStorage;
 
     @Autowired
-    InMemoryUserStorage(FilmStorage filmStorage) {
+    InMemoryUserStorage(@Qualifier("InMemoryFilmStorage") FilmStorage filmStorage) {
         this.filmStorage = filmStorage;
     }
 
@@ -83,5 +85,10 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public Map<Long, User> getUsers() {
         return users;
+    }
+
+    @Override
+    public boolean validateUser(Long userId) {
+        return false;
     }
 }

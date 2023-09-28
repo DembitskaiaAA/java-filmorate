@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.film;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Component
+@Component("InMemoryFilmStorage")
 public class InMemoryFilmStorage implements FilmStorage {
 
     private Map<Long, Film> films = new HashMap<>();
@@ -34,7 +34,8 @@ public class InMemoryFilmStorage implements FilmStorage {
     public Film updateFilm(Film film) {
         if (!films.containsKey(film.getId())) {
             log.error("Обнаружена ошибка: фильм с id {} отсутствует", film.getId());
-            throw new FilmNotFoundException(String.format("Обнаружена ошибка: фильм с id %d отсутствует", film.getId()));
+            throw new FilmNotFoundException(
+                    String.format("Обнаружена ошибка: фильм с id %d отсутствует", film.getId()));
         }
         films.put(film.getId(), film);
         log.info("Фильм {} обновлен в списке", film.getName());
@@ -63,5 +64,10 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public Map<Long, Film> getFilms() {
         return films;
+    }
+
+    @Override
+    public boolean validateFilm(Long filmId) {
+        return false;
     }
 }

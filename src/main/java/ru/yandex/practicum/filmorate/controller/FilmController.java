@@ -1,14 +1,15 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.storage.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/films")
@@ -18,7 +19,7 @@ public class FilmController {
     FilmService filmService;
 
     @Autowired
-    FilmController(FilmStorage filmStorage, FilmService filmService) {
+    FilmController(@Qualifier("FilmDbStorage") FilmStorage filmStorage, FilmService filmService) {
         this.filmStorage = filmStorage;
         this.filmService = filmService;
     }
@@ -59,7 +60,7 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getPopularFilms(@RequestParam(required = false, defaultValue = "10") Integer count) {
+    public Collection<Film> getPopularFilms(@RequestParam(required = false, defaultValue = "10") Integer count) {
         if (count < 0 || count == 0) {
             throw new IllegalArgumentException("count не должен быть меньше 0 или равняться 0");
         }
